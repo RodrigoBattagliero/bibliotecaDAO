@@ -6,7 +6,7 @@
 package bibliotecadao.dao;
 
 import bibliotecadao.conexion.Conexion;
-import bibliotecadao.dto.ComentarioDTO;
+import bibliotecadao.dto.AutorDTO;
 import interfaces.Obligacion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,34 +20,33 @@ import java.util.logging.Logger;
  *
  * @author rodrigo
  */
-public class ComentarioDAO implements Obligacion<ComentarioDTO> {
+public class AutorDAO implements Obligacion<AutorDTO> {
     
-    private final String SQL_INSERT = "INSERT INTO comentarios(id,nombre,comentario,id_libro) VALES(null,?,?,?)";
-    private final String SQL_UPDATE = "UPDATE comentarios SET nombre = ? AND comentario = ? WHERE id = ? ";
-    private final String SQL_DELETE = "DELETE FROM comentarios WHERE id = ?";
-    private final String SQL_SELECT = "SELECT id,nombre,comentario,id_libro FROM comentarios WHERE id = ?";
-    private final String SQL_SELECTALL = "SELECT id,nombre,comentario,id_libro FROM comentarios";
+    private final String SQL_INSERT = "INSERT INTO autor(id,nombre,id_libro) VALUES(null,?,?)";
+    private final String SQL_UPDATE = "UPDATE autor SET nombre = ? AND id_libro = ? WHERE id = ?";
+    private final String SQL_DELETE = "DELETE FROM autor WHERE id = ?";
+    private final String SQL_SELECT = "SELECT id,nombre,id_libro FROM autor WHERE id = ?";
+    private final String SQL_SELECTALL = "SELECT id,nombre,id_libro FROM autor";
     
     private static final Conexion conex = Conexion.estado();
-
+    
     @Override
-    public boolean create(ComentarioDTO c) {
+    public boolean create(AutorDTO c) {
         PreparedStatement ps;
+        
         try {
             ps = conex.getCnn().prepareStatement(SQL_INSERT);
             ps.setString(1,c.getNombre());
-            ps.setString(2, c.getComentario());
-            ps.setInt(3,c.getId_libro());
-            
+            ps.setInt(2, c.getId_libro());
             if(ps.executeUpdate() > 0)
                 return true;
-            
         } catch (SQLException ex) {
-            Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AutorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conex.closeConecxion();
         }
         return false;
+        
     }
 
     @Override
@@ -55,30 +54,31 @@ public class ComentarioDAO implements Obligacion<ComentarioDTO> {
         PreparedStatement ps;
         try {
             ps = conex.getCnn().prepareStatement(SQL_DELETE);
-            ps.setInt(1,(int) key);
+            ps.setInt(1, (int) key);
             if(ps.executeUpdate() > 0)
                 return true;
         } catch (SQLException ex) {
-            Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AutorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conex.closeConecxion();
         }
         return false;
+        
     }
 
     @Override
-    public boolean update(ComentarioDTO c) {
-        PreparedStatement ps;
+    public boolean update(AutorDTO c) {
+         PreparedStatement ps;
+        
         try {
-            // "UPDATE comentarios SET nombre = ? AND comentario = ? WHERE id = ? ";
             ps = conex.getCnn().prepareStatement(SQL_UPDATE);
             ps.setString(1,c.getNombre());
-            ps.setString(2, c.getComentario());
+            ps.setInt(2, c.getId_libro());
             ps.setInt(3, c.getId());
             if(ps.executeUpdate() > 0)
                 return true;
         } catch (SQLException ex) {
-            Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AutorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conex.closeConecxion();
         }
@@ -86,46 +86,43 @@ public class ComentarioDAO implements Obligacion<ComentarioDTO> {
     }
 
     @Override
-    public ComentarioDTO read(Object key) {
+    public AutorDTO read(Object key) {
         PreparedStatement ps;
         ResultSet res;
-        ComentarioDTO c = null;
+        AutorDTO a = null;
         try {
             ps = conex.getCnn().prepareStatement(SQL_SELECT);
             ps.setInt(1, (int) key);
-            res = ps.executeQuery();
-            while(res.next()){
-                c = new ComentarioDTO(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
-            }
+           res = ps.executeQuery();
+           while(res.next()){
+               a = new AutorDTO(res.getInt(1),res.getString(2),res.getInt(3));
+           }
+           return a;
         } catch (SQLException ex) {
-            Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AutorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conex.closeConecxion();
         }
-        return c;
+        return a;
     }
 
     @Override
-    public List<ComentarioDTO> readAll() {
+    public List<AutorDTO> readAll() {
         PreparedStatement ps;
         ResultSet res;
-        ArrayList comentarios = new ArrayList();
-        
+        ArrayList Autores = new ArrayList();
         try {
             ps = conex.getCnn().prepareStatement(SQL_SELECTALL);
-            res = ps.executeQuery();            
+            res = ps.executeQuery();
             while(res.next()){
-                comentarios.add(new ComentarioDTO(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4)));
+                Autores.add(new AutorDTO(res.getInt(1), res.getString(2), res.getInt(3)));
             }
-            return comentarios;
+            return Autores;
         } catch (SQLException ex) {
-            Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AutorDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conex.closeConecxion();
         }
-        return comentarios;
+        return Autores;
     }
-    
-    
-            
 }

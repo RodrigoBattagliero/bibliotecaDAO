@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bibliotecadao.dao;
+package controller;
 
 /**
  *
  * @author rodrigo
  */
-class ListArray {
+public class AutorController {
     
 }

@@ -15,8 +15,15 @@ import java.util.List;
  * @author rodrigo
  */
 public class LibroController {
-    public static void main(String args[]){
-  
-        
+    
+    private LibroDAO dao;
+
+    public LibroController() {
+        dao = new LibroDAO();
     }
+    
+    public ArrayList<LibroDTO> getTodos(){
+        return dao.readAll();
+    }
+    
 }

@@ -17,5 +17,6 @@ public interface Obligacion <ClaseGenerica> {
         public boolean update(ClaseGenerica c);
         public ClaseGenerica read(Object key);
         public List<ClaseGenerica> readAll();
+        public List<ClaseGenerica> readRelated(Object key);
     
 }

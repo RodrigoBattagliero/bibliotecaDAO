@@ -125,6 +125,11 @@ public class ComentarioDAO implements Obligacion<ComentarioDTO> {
         }
         return comentarios;
     }
+
+    @Override
+    public List<ComentarioDTO> readRelated(Object key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
             

@@ -30,6 +30,10 @@ public class LibroDAO implements Obligacion<LibroDTO> {
     
     private static final Conexion conex = Conexion.estado();
 
+    public LibroDAO() {
+    }
+    
+
     @Override
     public boolean create(LibroDTO c) {
         PreparedStatement ps;
@@ -106,10 +110,10 @@ public class LibroDAO implements Obligacion<LibroDTO> {
     }
     
      @Override
-    public List readAll() {
+    public ArrayList<LibroDTO> readAll() {
         PreparedStatement ps;
         ResultSet res;
-        ArrayList libros = new ArrayList();
+        ArrayList<LibroDTO> libros = new ArrayList();
         
         try {
             
@@ -126,6 +130,11 @@ public class LibroDAO implements Obligacion<LibroDTO> {
         }
         return libros;
         
+    }
+
+    @Override
+    public List<LibroDTO> readRelated(Object key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

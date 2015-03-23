@@ -5,6 +5,7 @@
         <group>
             <file>file:/home/rodrigo/NetBeansProjects/bibliotecaDAO/src/interfaces/Obligacion.java</file>
             <file>file:/home/rodrigo/NetBeansProjects/bibliotecaDAO/src/bibliotecadao/BibliotecaDAO.java</file>
+            <file>file:/home/rodrigo/NetBeansProjects/bibliotecaDAO/src/view/VentanaPrincipal.java</file>
             <file>file:/home/rodrigo/NetBeansProjects/bibliotecaDAO/src/controller/LibroController.java</file>
             <file>file:/home/rodrigo/NetBeansProjects/bibliotecaDAO/src/bibliotecadao/dto/LibroDTO.java</file>
             <file>file:/home/rodrigo/NetBeansProjects/bibliotecaDAO/src/bibliotecadao/conexion/Conexion.java</file>

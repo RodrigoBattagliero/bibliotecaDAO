@@ -27,6 +27,7 @@ public class AutorDAO implements Obligacion<AutorDTO> {
     private final String SQL_DELETE = "DELETE FROM autor WHERE id = ?";
     private final String SQL_SELECT = "SELECT id,nombre,id_libro FROM autor WHERE id = ?";
     private final String SQL_SELECTALL = "SELECT id,nombre,id_libro FROM autor";
+    private final String SQL_SELECTRELATED = "SELECT id,nombre,id_libro FROM autor WHERE id_libro = ?";
     
     private static final Conexion conex = Conexion.estado();
     
@@ -107,7 +108,7 @@ public class AutorDAO implements Obligacion<AutorDTO> {
     }
 
     @Override
-    public List<AutorDTO> readAll() {
+    public ArrayList<AutorDTO> readAll() {
         PreparedStatement ps;
         ResultSet res;
         ArrayList Autores = new ArrayList();
@@ -125,4 +126,24 @@ public class AutorDAO implements Obligacion<AutorDTO> {
         }
         return Autores;
     }
+
+    @Override
+    public ArrayList<AutorDTO> readRelated(Object key) {
+        PreparedStatement ps;
+        ResultSet res;
+        ArrayList l = new ArrayList();
+        try {
+            ps = conex.getCnn().prepareStatement(SQL_SELECTRELATED);
+            ps.setInt(1, (int) key);
+            res = ps.executeQuery();
+            while(res.next()){
+                l.add(new AutorDTO(res.getInt(1),res.getString(2),res.getInt(3)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AutorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return l;
+    }
+    
+    
 }
